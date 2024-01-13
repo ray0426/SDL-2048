@@ -255,7 +255,7 @@ bool init()
 		}
 
 		//Create window
-		gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+		gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 		if( gWindow == NULL )
 		{
 			printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
@@ -385,25 +385,25 @@ int main( int argc, char* args[] )
 
                     // Move
                     const Uint8* currentKeyStates = SDL_GetKeyboardState( NULL );
-                    if( currentKeyStates[ SDL_SCANCODE_UP ] )
+                    if( currentKeyStates[ SDL_SCANCODE_UP ] && e.key.repeat == 0  )
                     {
                         move = Move::LEFT;
                         game.exec_move(move);
                         std::cout << "UP" << std::endl;
                     }
-                    else if( currentKeyStates[ SDL_SCANCODE_DOWN ] )
+                    else if( currentKeyStates[ SDL_SCANCODE_DOWN ] && e.key.repeat == 0  )
                     {
                         move = Move::RIGHT;
                         game.exec_move(move);
                         std::cout << "DOWN" << std::endl;
                     }
-                    else if( currentKeyStates[ SDL_SCANCODE_LEFT ] )
+                    else if( currentKeyStates[ SDL_SCANCODE_LEFT ] && e.key.repeat == 0  )
                     {
                         move = Move::UP;
                         game.exec_move(move);
                         std::cout << "LEFT" << std::endl;
                     }
-                    else if( currentKeyStates[ SDL_SCANCODE_RIGHT ] )
+                    else if( currentKeyStates[ SDL_SCANCODE_RIGHT ] && e.key.repeat == 0  )
                     {
                         move = Move::DOWN;
                         game.exec_move(move);

@@ -25,3 +25,16 @@
 
 # vscode
 *.vscode
+
+# source of assets
+assets_src/
+
+# dll files
+dll/
+
+# compile source
+src/include/
+src/lib/
+
+# build
+build/
