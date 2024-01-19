@@ -22,7 +22,9 @@ Game2048Standard::~Game2048Standard() {
 
 int Game2048Standard::init() {
     delete_board(board);
+    delete_board(board_tmp);
     board = create_empty_board();
+    board_tmp = create_empty_board();
     srand(time(NULL));
     random_add_brick();
     random_add_brick();
@@ -59,6 +61,14 @@ Board Game2048Standard::create_empty_board() {
     return board_tmp;
 }
 
+void Game2048Standard::clear_board(Board &board) {
+    for (int i = 0; i < gamesize; i++) {
+        for (int j = 0; j < gamesize; j++) {
+            board[i][j] = 0;
+        }
+    }
+}
+
 int Game2048Standard::delete_board(Board &board_tmp) {
     if (board_tmp) {
         for (int i = 0; i < gamesize; i++) {
@@ -71,15 +81,22 @@ int Game2048Standard::delete_board(Board &board_tmp) {
     return 0;
 }
 
-Board Game2048Standard::copy_board(Board board_tmp) {
-    if (board_tmp == nullptr) assert(false);
+Board Game2048Standard::copy_board(Board board_in) {
+    if (board_in == nullptr) assert(false);
     Board board_copied = create_empty_board();
     for (int i = 0; i < gamesize; i++) {
         for (int j = 0; j < gamesize; j++) {
-            board_copied[i][j] = board_tmp[i][j];
+            board_copied[i][j] = board_in[i][j];
         }
     }
     return board_copied;
+}
+
+void Game2048Standard::swap_board(Board &board_1, Board &board_2) {
+    Board board_tmp;
+    board_tmp = board_1;
+    board_1 = board_2;
+    board_2 = board_tmp;
 }
 
 int Game2048Standard::compare_board(Board board1, Board board2) {
@@ -213,23 +230,19 @@ int Game2048Standard::exec_move(Move move, bool trial) {
 }
 
 int Game2048Standard::rotate_clockwise() {
-    Board board_tmp = create_empty_board();
-
+    clear_board(board_tmp);
     for (int i = 0; i < gamesize; i++) {
         for (int j = 0; j < gamesize; j++) {
             board_tmp[i][j] = board[gamesize - j - 1][i];
         }
     }
-
-    delete_board(board);
-    board = board_tmp;
+    swap_board(board, board_tmp);
 
     return 0;
 }
 
 int Game2048Standard::shift_left() {
-    Board board_tmp = create_empty_board();
-
+    clear_board(board_tmp);
     for (int i = 0; i < gamesize; i++) {
         for (int j = 0, k = 0; j < gamesize; j++) {
             if (board[i][j] != 0) {
@@ -238,17 +251,14 @@ int Game2048Standard::shift_left() {
             }
         }
     }
-
-    delete_board(board);
-    board = board_tmp;
+    swap_board(board, board_tmp);
 
     return 0;
 }
 
 int Game2048Standard::merge_left() {
     int score = 0;
-    Board board_tmp = create_empty_board();
-
+    clear_board(board_tmp);
     for (int i = 0; i < gamesize; i++) {
         for (int j = 0; j < gamesize - 1; j++) {
             if (board[i][j] != 0) {
@@ -267,9 +277,7 @@ int Game2048Standard::merge_left() {
             board_tmp[i][gamesize - 1] = board[i][gamesize - 1];
         }
     }
-
-    delete_board(board);
-    board = board_tmp;
+    swap_board(board, board_tmp);
 
     return score;
 }
@@ -287,5 +295,4 @@ int random_with_weight(const float weights[], int size) {
 }
 
 // TODO: 
-// (). change board_tmp to class member variable
 // (). change board to binary (similar to https://github.com/nneonneo/2048-ai)

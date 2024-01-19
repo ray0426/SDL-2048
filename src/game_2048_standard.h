@@ -18,7 +18,7 @@ enum class Move {
 class Game2048Standard {
     private:
         int gamesize;
-        Board board = nullptr;
+        Board board = nullptr, board_tmp = nullptr;
         int max_tile = 0;
         int total_moves = 0;
         int total_score = 0;
@@ -34,8 +34,10 @@ class Game2048Standard {
         Board get_board();
         void print_board();
         Board create_empty_board();
+        void clear_board(Board &board);
         int delete_board(Board &board_temp);
         Board copy_board(Board board_tmp);
+        void swap_board(Board &board_1, Board &board_2);
 
         /**
          * Compare two `Board`
