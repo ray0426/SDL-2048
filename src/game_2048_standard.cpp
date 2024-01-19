@@ -59,12 +59,13 @@ Board Game2048Standard::create_empty_board() {
     return board_tmp;
 }
 
-int Game2048Standard::delete_board(Board board_tmp) {
+int Game2048Standard::delete_board(Board &board_tmp) {
     if (board_tmp) {
         for (int i = 0; i < gamesize; i++) {
             delete [] board_tmp[i];
         }
         delete board_tmp;
+        board_tmp = nullptr;
     }
     // delete_count++;
     return 0;

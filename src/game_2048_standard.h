@@ -34,7 +34,7 @@ class Game2048Standard {
         Board get_board();
         void print_board();
         Board create_empty_board();
-        int delete_board(Board board_temp);
+        int delete_board(Board &board_temp);
         Board copy_board(Board board_tmp);
 
         /**
