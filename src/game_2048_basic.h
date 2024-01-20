@@ -1,7 +1,16 @@
+#ifndef GAME_2048_BASIC_H_
+#define GAME_2048_BASIC_H_
 
-class Game2048Basic {
-    private:
+typedef std::pair<int, int> Pos;
 
-    public:
+#define GAME_2048_MOVE_TYPES 4
 
+enum class Move {
+    STOP,
+    UP,
+    RIGHT,
+    DOWN,
+    LEFT
 };
+
+#endif

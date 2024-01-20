@@ -1,22 +1,12 @@
-#ifndef GAME2048STANDARD_H_
-#define GAME2048STANDARD_H_
+#ifndef GAME_2048_STANDARD_H_
+#define GAME_2048_STANDARD_H_
 #include <vector>
-
-#define GAME_2048_MOVE_TYPES 4
+#include "game_2048_basic.h"
 
 typedef int** Board;
-typedef std::pair<int, int> Pos;
-
-enum class Move {
-    STOP,
-    UP,
-    RIGHT,
-    DOWN,
-    LEFT
-};
 
 class Game2048Standard {
-    private:
+    protected:
         int gamesize;
         Board board = nullptr, board_tmp = nullptr;
         int max_tile = 0;
@@ -58,8 +48,9 @@ class Game2048Standard {
         void add_brick(Pos pos, int num);
         int shift_left();
         int merge_left();
-        int rotate_clockwise();
+        int rotate_clockwise(Board &board_rotate);
 };
 
+int random_with_weight(const float weights[], int size);
 
 #endif

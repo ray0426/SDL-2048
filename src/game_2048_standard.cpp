@@ -18,6 +18,7 @@ Game2048Standard::Game2048Standard(int gamesize) : gamesize(gamesize) {}
 
 Game2048Standard::~Game2048Standard() {
     delete_board(board);
+    delete_board(board_tmp);
 }
 
 int Game2048Standard::init() {
@@ -70,7 +71,7 @@ void Game2048Standard::clear_board(Board &board) {
 }
 
 int Game2048Standard::delete_board(Board &board_tmp) {
-    if (board_tmp) {
+    if (board_tmp != nullptr) {
         for (int i = 0; i < gamesize; i++) {
             delete [] board_tmp[i];
         }
@@ -179,31 +180,31 @@ int Game2048Standard::exec_move(Move move, bool trial) {
 
     switch (move) {
         case Move::UP:
-            rotate_clockwise();
-            rotate_clockwise();
-            rotate_clockwise();
+            rotate_clockwise(board);
+            rotate_clockwise(board);
+            rotate_clockwise(board);
             shift_left();
             score = merge_left();
             shift_left();
-            rotate_clockwise();
+            rotate_clockwise(board);
             break;
         case Move::RIGHT:
-            rotate_clockwise();
-            rotate_clockwise();
+            rotate_clockwise(board);
+            rotate_clockwise(board);
             shift_left();
             score = merge_left();
             shift_left();
-            rotate_clockwise();
-            rotate_clockwise();
+            rotate_clockwise(board);
+            rotate_clockwise(board);
             break;
         case Move::DOWN:
-            rotate_clockwise();
+            rotate_clockwise(board);
             shift_left();
             score = merge_left();
             shift_left();
-            rotate_clockwise();
-            rotate_clockwise();
-            rotate_clockwise();
+            rotate_clockwise(board);
+            rotate_clockwise(board);
+            rotate_clockwise(board);
             break;
         case Move::LEFT:
             shift_left();
@@ -229,55 +230,50 @@ int Game2048Standard::exec_move(Move move, bool trial) {
     return 0;
 }
 
-int Game2048Standard::rotate_clockwise() {
+int Game2048Standard::rotate_clockwise(Board &board_rotate) {
     clear_board(board_tmp);
     for (int i = 0; i < gamesize; i++) {
         for (int j = 0; j < gamesize; j++) {
-            board_tmp[i][j] = board[gamesize - j - 1][i];
+            board_tmp[i][j] = board_rotate[gamesize - j - 1][i];
         }
     }
-    swap_board(board, board_tmp);
+    swap_board(board_rotate, board_tmp);
 
     return 0;
 }
 
 int Game2048Standard::shift_left() {
-    clear_board(board_tmp);
     for (int i = 0; i < gamesize; i++) {
-        for (int j = 0, k = 0; j < gamesize; j++) {
+        int k = 0;
+        for (int j = 0; j < gamesize; j++) {
             if (board[i][j] != 0) {
-                board_tmp[i][k] = board[i][j];
+                board[i][k] = board[i][j];
                 k++;
             }
         }
+        for (; k < gamesize; k++) {
+            board[i][k] = 0;
+        }
     }
-    swap_board(board, board_tmp);
 
     return 0;
 }
 
 int Game2048Standard::merge_left() {
     int score = 0;
-    clear_board(board_tmp);
     for (int i = 0; i < gamesize; i++) {
         for (int j = 0; j < gamesize - 1; j++) {
             if (board[i][j] != 0) {
                 if (board[i][j] == board[i][j + 1]) {
-                    board_tmp[i][j] = board[i][j] + 1;
-                    score += (1 << board_tmp[i][j]);
-                    max_tile = std::max(max_tile, board_tmp[i][j]);
+                    board[i][j] = board[i][j] + 1;
+                    score += (1 << board[i][j]);
+                    max_tile = std::max(max_tile, board[i][j]);
                     board[i][j + 1] = 0;
                     j++;
-                } else {
-                    board_tmp[i][j] = board[i][j];
                 }
             }
         }
-        if (board[i][gamesize - 1] != 0) {
-            board_tmp[i][gamesize - 1] = board[i][gamesize - 1];
-        }
     }
-    swap_board(board, board_tmp);
 
     return score;
 }
