@@ -80,11 +80,11 @@ bool init()
 		return false;
 	}
 
-    // Initialize game
-    if ( game.init() != 0 ) {
-        printf( "Game initialize error\n" );
-        return false;
-    }
+	// Initialize game
+	if ( game.init() != 0 ) {
+		printf( "Game initialize error\n" );
+		return false;
+	}
 
 	return true;
 }
@@ -135,8 +135,8 @@ int main( int argc, char* args[] )
 
 			//Event handler
 			SDL_Event e;
-            
-            game.start();
+			
+			game.start();
 
 			//While application is running
 			while( !quit )
@@ -153,9 +153,12 @@ int main( int argc, char* args[] )
 					//Handle window events
 					gWindow.handleEvent( e );
 
-                    // Move
+					// Move
 					game.handleEvent( e );
 				}
+
+				int window_width = gWindow.getWidth();
+				int window_height = gWindow.getHeight();
 
 				//Only draw when not minimized
 				if( !gWindow.isMinimized() ) {
@@ -164,7 +167,7 @@ int main( int argc, char* args[] )
 					SDL_RenderClear( gRenderer );
 
 					//Render game
-					game.render();
+					game.render(window_width, window_height);
 
 					//Update screen
 					SDL_RenderPresent( gRenderer );

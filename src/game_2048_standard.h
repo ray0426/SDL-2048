@@ -21,8 +21,10 @@ class Game2048Standard {
         Game2048Standard(int gamesize);
         ~Game2048Standard();
         int init();
+        int start();
         Board get_board();
         void print_board();
+        void print_board(Board board, bool row_major = true);
         Board create_empty_board();
         void clear_board(Board &board);
         int delete_board(Board &board_temp);

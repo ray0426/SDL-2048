@@ -26,6 +26,11 @@ int Game2048Standard::init() {
     delete_board(board_tmp);
     board = create_empty_board();
     board_tmp = create_empty_board();
+    
+    return 0;
+}
+
+int Game2048Standard::start() {
     srand(time(NULL));
     random_add_brick();
     random_add_brick();
@@ -50,6 +55,24 @@ void Game2048Standard::print_board() {
             cout << board[i][j] << " ";
         }
         cout << endl;
+    }
+}
+
+void Game2048Standard::print_board(Board board, bool row_major) {
+    if (row_major) {
+        for (int i = 0; i < gamesize; i++) {
+            for (int j = 0; j < gamesize; j++) {
+                cout << board[i][j] << " ";
+            }
+            cout << endl;
+        }
+    } else {
+        for (int i = 0; i < gamesize; i++) {
+            for (int j = 0; j < gamesize; j++) {
+                cout << board[j][i] << " ";
+            }
+            cout << endl;
+        }
     }
 }
 
