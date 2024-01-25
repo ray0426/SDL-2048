@@ -22,6 +22,7 @@ class Game2048Change : public Game2048Standard {
         std::vector<TileStatus> current_tiles;
         Board board_mark = nullptr;
         int mark_offset;
+        bool same;
     public:
         Game2048Change(int gamesize);
         ~Game2048Change();
@@ -37,6 +38,7 @@ class Game2048Change : public Game2048Standard {
         std::vector<TileStatus>& getNewtiles();
         std::vector<TileStatus>& getMovements();
         std::vector<TileStatus>& getCurrentTiles();
+        bool get_same();
 };
 
 

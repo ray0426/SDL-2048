@@ -66,12 +66,8 @@ void Game2048Change::init_board_mark() {
 int Game2048Change::exec_move(Move move, bool trial) {
     int score = 0;
     Board board_origin = copy_board(board);
-    int same;
 
     init_board_mark();
-    // print_board(board_mark, false);
-    // std::cout << "============ before move" << std::endl;
-    // print_board(board, false);
 
     switch (move) {
         case Move::UP:
@@ -136,11 +132,6 @@ int Game2048Change::exec_move(Move move, bool trial) {
             random_add_brick();
             find_movements();
             find_current_tiles();
-
-            // std::cout << "============ now" << std::endl;
-            // print_board(board_mark, false);
-            std::cout << "============ now" << std::endl;
-            print_board(board, false);
         }
     }
 
@@ -259,4 +250,8 @@ std::vector<TileStatus>& Game2048Change::getMovements() {
 
 std::vector<TileStatus>& Game2048Change::getCurrentTiles() {
     return current_tiles;
+}
+
+bool Game2048Change::get_same() {
+    return same;
 }

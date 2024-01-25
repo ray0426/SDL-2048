@@ -22,13 +22,21 @@ LWindow::LWindow()
 bool LWindow::init()
 {
 	//Create window
-	mWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE );
+	mWindow = SDL_CreateWindow(
+		"SDL Tutorial", 
+		SDL_WINDOWPOS_UNDEFINED, 
+		SDL_WINDOWPOS_UNDEFINED, 
+		GAME_SCREEN_WIDTH, 
+		GAME_SCREEN_HEIGHT, 
+		SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE 
+	);
+
 	if( mWindow != NULL )
 	{
 		mMouseFocus = true;
 		mKeyboardFocus = true;
-		mWidth = SCREEN_WIDTH;
-		mHeight = SCREEN_HEIGHT;
+		mWidth = GAME_SCREEN_WIDTH;
+		mHeight = GAME_SCREEN_HEIGHT;
 	}
 
 	return mWindow != NULL;

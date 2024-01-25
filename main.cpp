@@ -166,6 +166,9 @@ int main( int argc, char* args[] )
 					SDL_SetRenderDrawColor( gRenderer, 0xBB, 0xAD, 0xA0, 0xFF );
 					SDL_RenderClear( gRenderer );
 
+					//Update game
+					game.update();
+
 					//Render game
 					game.render(window_width, window_height);
 

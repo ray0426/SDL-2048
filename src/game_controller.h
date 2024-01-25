@@ -2,11 +2,12 @@
 #define GAME_LOGIC_H_
 #include <SDL2/SDL.h>
 #include "game_2048_change.h"
-#include "utils.h"
 #include "LTexture.h"
 #include <vector>
 
 class Tile;
+
+enum class Gamestate;
 
 class GameController {
     public:
@@ -16,6 +17,7 @@ class GameController {
         bool init();
         bool loadMedia();
         void handleEvent( SDL_Event& e );
+        void update();
         void render(int window_width, int window_height);
 
         // Set gSpriteClips
@@ -23,6 +25,10 @@ class GameController {
 
         bool start();
         void create_tiles();
+
+        int get_pixel_from_pos(int p);
+        int shift_interpolation(int p1, int p2, Uint32 time_now, Uint32 time_total);
+        double scale_interpolation(double size1, double size2, Uint32 time_now, Uint32 time_total);
     private:
         int gamesize;
         Game2048Change gamelogic;
@@ -31,6 +37,11 @@ class GameController {
         LTexture gSpriteSheetTexture;
         Move move;
         std::vector<Tile> tiles;
+
+        Gamestate state;
+
+        // animation time
+        Uint32 t_animation_start, t_animation_now;
 };
 
 class Tile {
@@ -54,5 +65,13 @@ class Tile {
         double get_scale();
         SDL_Rect& get_gSpriteClip();
 };
+
+enum class Gamestate {
+    S_READY,
+    S_MOVE,
+    S_ZOOM
+};
+
+std::ostream &operator << ( std::ostream& os, Move move );
 
 #endif
