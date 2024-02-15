@@ -20,7 +20,8 @@ void GameController::free() {
     gSpriteSheetTexture.free();
 }
 
-bool GameController::init() {
+bool GameController::init(SDL_Renderer *gRenderer) {
+    this->gRenderer = gRenderer;
     gamelogic.init();
     return 0;
 };
@@ -111,11 +112,26 @@ void GameController::update() {
 };
 
 void GameController::render(int window_width, int window_height) {
-    double scale = (double)std::min(window_width, window_height) / GAME_GAMEAREA_LENGTH;
+    double scale = std::min((double)window_width / GAME_TOTAL_WIDTH, (double)window_height / GAME_TOTAL_HEIGHT);
+    scale = std::min(scale, (double)GAME_GAMEAREA_LENGTH_MAX / GAME_GAMEAREA_LENGTH);
     double block_scale = scale * GAME_BLOCK_SIZE / ASSET_BLOCK_SIZE;
-    int gamearea_offset_x = std::max(int((window_width - GAME_GAMEAREA_LENGTH * scale) / 2), 0);
-    int gamearea_offset_y = std::max(int((window_height - GAME_GAMEAREA_LENGTH * scale) / 2), 0);
+    int gamearea_offset_x = std::max(int((window_width - GAME_TOTAL_WIDTH * scale) / 2), 0);
+    int gamearea_offset_y = std::max(int((window_height - GAME_TOTAL_HEIGHT * scale) / 2), 0) + GAME_INFO_HEIGHT * scale;
 
+    // game info
+    
+
+    // game area background
+    SDL_Rect fillRect = { 
+        gamearea_offset_x,
+        gamearea_offset_y,
+        scale * GAME_GAMEAREA_LENGTH,
+        scale * GAME_GAMEAREA_LENGTH
+        };
+    SDL_SetRenderDrawColor( gRenderer, 0xBB, 0xAD, 0xA0, 0xFF );		
+    SDL_RenderFillRect( gRenderer, &fillRect );
+
+    // tiles
     create_tiles();
     for ( int i = 0; i < 4; i++ ) {
     	for ( int j = 0; j < 4; j++ ) {

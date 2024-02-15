@@ -14,7 +14,7 @@ class GameController {
         GameController(int gamesize);
         ~GameController();
         void free();
-        bool init();
+        bool init(SDL_Renderer *gRenderer);
         bool loadMedia();
         void handleEvent( SDL_Event& e );
         void update();
@@ -30,6 +30,7 @@ class GameController {
         int shift_interpolation(int p1, int p2, Uint32 time_now, Uint32 time_total);
         double scale_interpolation(double size1, double size2, Uint32 time_now, Uint32 time_total);
     private:
+        SDL_Renderer *gRenderer;
         int gamesize;
         Game2048Change gamelogic;
         Board board = nullptr, board_prev = nullptr;
