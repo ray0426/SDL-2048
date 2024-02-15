@@ -10,6 +10,7 @@ int main() {
     char move;
     Game2048Standard game(4);
     game.init();
+    game.start();
     game.print_board();
     while (!game.is_gameover()) {
         cin >> move;
